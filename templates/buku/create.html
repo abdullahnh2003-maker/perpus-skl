@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Tambah Buku{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow ring-1 ring-slate-200">
+  <div class="mb-6">
+    <h1 class="text-3xl font-semibold text-slate-900">Tambah Buku Baru</h1>
+    <p class="text-slate-500 mt-2">Isi informasi buku dengan lengkap.</p>
+  </div>
+  <form method="post" class="space-y-5">
+    {% csrf_token %}
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="block">
+        <span class="text-slate-700">Judul</span>
+        <input name="judul" required class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Pengarang</span>
+        <input name="pengarang" required class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Kategori</span>
+        <input name="kategori" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Penerbit</span>
+        <input name="penerbit" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Tahun Terbit</span>
+        <input name="tahun_terbit" type="number" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Rak</span>
+        <input name="rak" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+      <label class="block">
+        <span class="text-slate-700">Stok</span>
+        <input name="stok" type="number" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+    </div>
+    <label class="block">
+      <span class="text-slate-700">Deskripsi</span>
+      <textarea name="deskripsi" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900"></textarea>
+    </label>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href="{% url 'buku_list' %}" class="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-slate-600 bg-slate-100 hover:bg-slate-200">
+        <span class="material-icons-outlined">arrow_back</span>
+          Kembali ke Daftar
+      </a>
+      <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-brand-600 px-6 py-3 text-white shadow hover:bg-brand-700">Simpan</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Sistem Peminjaman Buku SIPUSTAKA{% endblock %}
+
+{% block content %}
+
+<h2 class="text-3xl font-bold mb-6">
+    Dashboard
+</h2>
+
+<!-- Card Statistik -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <p class="text-slate-500">Total Buku</p>
+        <h1 class="text-4xl font-bold mt-3">
+            {{ total_buku|default:0 }}
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">
+            Jumlah unit buku di perpustakaan.
+        </p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <p class="text-slate-500">Total Judul</p>
+        <h1 class="text-4xl font-bold mt-3">
+            {{ total_judul|default:0 }}
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">
+            Jumlah judul buku unik.
+        </p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <p class="text-slate-500">Sedang Dipinjam</p>
+        <h1 class="text-4xl font-bold mt-3">
+            {{ sedang_dipinjam|default:0 }}
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">
+            Transaksi peminjaman saat ini.
+        </p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <p class="text-slate-500">Sudah Dikembalikan</p>
+        <h1 class="text-4xl font-bold mt-3">
+            {{ sudah_dikembalikan|default:0 }}
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">
+            Peminjaman yang telah selesai.
+        </p>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <h3 class="text-xl font-bold mb-5">Distribusi Stok Buku</h3>
+
+        {% if stok_buku %}
+            {% for item in stok_buku %}
+            <div class="flex justify-between mb-1">
+                <span>{{ item.judul }}</span>
+                <span>{{ item.stok }}</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-3 mb-4">
+                <div class="bg-blue-500 h-3 rounded-full" style="width: {{ item.stok|default:0|floatformat:0 }}%;"></div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-slate-500">Tidak ada data buku tersedia.</p>
+        {% endif %}
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow">
+        <h3 class="text-xl font-bold mb-5">Ringkasan Transaksi</h3>
+
+        <div class="flex justify-between mb-1">
+            <span>Sedang Dipinjam</span>
+            <span>{{ status_map.Dipinjam|default:0 }}</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-3 mb-5">
+            <div class="bg-yellow-500 h-3 rounded-full" style="width: {{ status_map.Dipinjam|default:0 }}%;"></div>
+        </div>
+
+        <div class="flex justify-between mb-1">
+            <span>Sudah Dikembalikan</span>
+            <span>{{ status_map.Dikembalikan|default:0 }}</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-3">
+            <div class="bg-green-500 h-3 rounded-full" style="width: {{ status_map.Dikembalikan|default:0 }}%;"></div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Daftar Peminjaman{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div>
+      <p class="text-slate-500 mt-1">Catatan Peminjaman dan Pengembalian Buku.</p>
+      <h1 class="text-3xl font-semibold text-slate-900">Daftar Peminjaman</h1>
+    </div>
+    <a href="{% url 'peminjaman_create' %}" class="inline-flex items-center gap-2 rounded-2xl bg-brand-600 px-4 py-2 text-white hover:bg-brand-700 transition">
+      <span class="material-icons-outlined">add</span>
+      Tambah Peminjaman
+    </a>
+  </div>
+
+  {% if error_message %}
+  <div class="rounded-3xl bg-white p-8 shadow ring-1 ring-slate-200 text-slate-700">
+    <p class="text-lg font-medium">Tidak dapat memuat data peminjaman.</p>
+    <p class="mt-2 text-slate-500">{{ error_message }}</p>
+  </div>
+  {% elif peminjaman %}
+  <div class="overflow-x-auto rounded-3xl bg-white shadow ring-1 ring-slate-200">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider">
+        <tr>
+          <th class="px-4 py-3 text-left">ID</th>
+          <th class="px-4 py-3 text-left">Nama Siswa</th>
+          <th class="px-4 py-3 text-left">Buku</th>
+          <th class="px-4 py-3 text-left">Tanggal Pinjam</th>
+          <th class="px-4 py-3 text-left">Jatuh Tempo</th>
+          <th class="px-4 py-3 text-left">Keperluan</th>
+          <th class="px-4 py-3 text-left">Petugas</th>
+          <th class="px-4 py-3 text-left">Status</th>
+          <th class="px-4 py-3 text-left">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-200 bg-white">
+        {% for item in peminjaman %}
+        <tr>
+          <td class="px-4 py-3 text-slate-800">{{ item.id }}</td>
+          <td class="px-4 py-3 text-slate-800">{{ item.siswa }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.buku }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.tanggal_pinjam|default:'-' }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.jatuh_tempo|default:'-' }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.keperluan|default:'-' }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.petugas|default:'D O U L' }}</td>
+          <td class="px-4 py-3 text-slate-600"> {% if item.status == 'Kembali' %}
+            <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">Kembali</span>
+            {% else %}
+            <span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-700">Dipinjam</span>
+            {% endif %}</td>
+          
+          <td class="px-4 py-3">
+            {% if item.status != 'Kembali' %}
+            <form action="{% url 'peminjaman_return' item.id %}" method="post" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="rounded-lg bg-blue-100 px-3 py-1 text-blue-700 hover:bg-blue-200 font-medium">Kembalikan</button>
+            </form>
+            {% else %}
+            <span class="text-slate-500">Selesai</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="rounded-3xl bg-white p-8 shadow ring-1 ring-slate-200 text-slate-700">
+    <p class="text-lg font-medium">Belum ada data peminjaman.</p>
+    <p class="mt-2 text-slate-500">Silakan tambahkan data peminjaman jika sudah tersedia pada tabel.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

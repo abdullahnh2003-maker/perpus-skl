@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Pinjam Buku{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div>
+      <p class="text-slate-500 mt-1">Peminjaman buku</p>
+      <h1 class="text-3xl font-semibold text-slate-900">Pinjam Buku</h1>
+    </div>
+  </div>
+
+  {% if error_message %}
+  <div class="rounded-3xl bg-red-50 p-6 text-red-700 shadow ring-1 ring-red-200 mb-6">
+    {{ error_message }}
+  </div>
+  {% endif %}
+
+  <div class="rounded-3xl bg-white p-8 shadow ring-1 ring-slate-200">
+    <form action="" method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Nama Peminjam</label>
+          <select name="siswa_id" required class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-10 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200">
+            <option value="">Pilih siswa</option>
+            {% for siswa in siswa_list %}
+            <option value="{{ siswa.id }}">{{ siswa.nama }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Pilih Buku</label>
+          <select name="buku_id" required class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-10 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200">
+            <option value="">Pilih buku</option>
+            {% for buku in buku_list %}
+            <option value="{{ buku.id }}">{{ buku.judul }}{% if buku.stok is not none %} (stok: {{ buku.stok }}){% endif %}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Tanggal Pinjam</label>
+          <input type="date" name="tanggal_pinjam" required class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Tanggal Jatuh Tempo</label>
+          <input type="date" name="jatuh_tempo" required class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200" />
+        </div>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Keperluan</label>
+          <select name="keperluan" required class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-10 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200">
+            <option value="">Pilih keperluan</option>
+            <option value="Bacaan Pribadi">Bacaan Pribadi</option>
+            <option value="Tugas Sekolah">Tugas Sekolah</option>
+            <option value="Referensi">Referensi</option>
+            <option value="Kegiatan Ekstra">Kegiatan Ekstra</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Petugas</label>
+          <input type="text" value="D O U L" readonly class="mt-2 block w-full rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-700 shadow-sm" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Catatan</label>
+        <textarea name="catatan" rows="4" class="mt-2 block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="Catatan tambahan (opsional)"></textarea>
+      </div>
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href="{% url 'peminjaman_list' %}" class="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-slate-600 bg-slate-100 hover:bg-slate-200">
+          <span class="material-icons-outlined">arrow_back</span>
+            Kembali ke Daftar
+        </a>
+      <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-brand-600 px-6 py-3 text-white shadow hover:bg-brand-700">Pinjam Buku</button>
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

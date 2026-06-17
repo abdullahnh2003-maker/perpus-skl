@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Tambah Siswa{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow ring-1 ring-slate-200">
+  <div class="mb-6">
+    <h1 class="text-3xl font-semibold text-slate-900">Tambah Siswa Baru</h1>
+    <p class="text-slate-500 mt-2">Isi informasi siswa dengan lengkap.</p>
+  </div>
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="block">
+        <span class="text-slate-700 font-medium">Nama</span>
+        <input name="nama" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" required />
+      </label>
+
+      <label class="block">
+        <span class="text-slate-700 font-medium">Kelas</span>
+        <input name="kelas" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" />
+      </label>
+
+      <label class="block">
+        <span class="text-slate-700 font-medium">NIS</span>
+        <input name="nis" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900" required />
+      </label>
+
+      <label class="block">
+        <span class="text-slate-700 font-medium">Status</span>
+        <select name="is_active" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900">
+          <option value="" disabled selected>Pilih status</option>
+          <option value="1">Aktif</option>
+          <option value="0">Tidak Aktif</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href="{% url 'siswa_list' %}" class="inline-flex items-center justify-center rounded-2xl px-6 py-3 mt-5 text-slate-600 bg-slate-100 hover:bg-slate-200">
+        <span class="material-icons-outlined">arrow_back</span>
+        Kembali ke Daftar
+      </a>
+      <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-brand-600 px-6 py-3 mt-5 text-white shadow hover:bg-brand-700">Simpan</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

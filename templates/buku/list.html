@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Daftar Buku{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div>
+      <p class="text-slate-500 mt-1">Kelola Data Buku SINAR PEMIKIR</p>
+      <h1 class="text-3xl font-semibold text-slate-900">Daftar Buku</h1>
+    </div>
+    <a href="{% url 'buku_create' %}" class="inline-flex items-center gap-2 rounded-2xl bg-brand-600 px-4 py-2 text-white hover:bg-brand-700 transition">
+      <span class="material-icons-outlined">add</span>
+      Tambah Buku
+    </a>
+    
+  </div>
+
+  {% if buku %}
+  <div class="overflow-x-auto rounded-3xl bg-white shadow ring-1 ring-slate-200">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider">
+        <tr>
+          <th class="px-4 py-3 text-left">ID</th>
+          <th class="px-4 py-3 text-left">Judul</th>
+          <th class="px-4 py-3 text-left">Pengarang</th>
+          <th class="px-4 py-3 text-left">Kategori</th>
+          <th class="px-4 py-3 text-left">Penerbit</th>
+          <th class="px-4 py-3 text-left">Tahun</th>
+          <th class="px-4 py-3 text-left">Rak</th>
+          <th class="px-4 py-3 text-left">Stok</th>
+          <th class="px-4 py-3 text-left">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-200 bg-white">
+        {% for item in buku %}
+        <tr>
+          <td class="px-4 py-3 text-slate-800">{{ item.id }}</td>
+          <td class="px-4 py-3 text-slate-800">{{ item.judul }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.pengarang }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.kategori }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.penerbit }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.tahun_terbit }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.rak }}</td>
+          <td class="px-4 py-3 text-slate-600">{{ item.stok }}</td>
+          <td class="px-4 py-3 space-x-2">
+            <div class="flex gap-2">
+                        <a href="{% url 'buku_detail' item.id %}" 
+                            class="px-3 py-1 rounded-lg bg-blue-100 font-medium text-blue-700 hover:bg-blue-200">
+                            Detail
+                        </a>
+
+
+                        <a href="{% url 'buku_update' item.id %}" 
+                            class="px-3 py-1 rounded-lg bg-yellow-100 font-medium text-yellow-700 hover:bg-yellow-200">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'buku_delete' item.id %}" 
+                            class="px-3 py-1 rounded-lg bg-red-100 font-medium text-red-700 hover:bg-red-200">
+                            Hapus
+                        </a>
+                    </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="rounded-3xl bg-white p-8 shadow ring-1 ring-slate-200 text-slate-700">
+    <p class="text-lg font-medium">Belum ada buku.</p>
+    <p class="mt-2 text-slate-500">Tambahkan buku baru untuk mulai mengelola koleksi perpustakaan.</p>
+    <a href="{% url 'buku_create' %}" class="mt-4 inline-flex items-center rounded-full bg-brand-600 px-4 py-2 text-white shadow hover:bg-brand-700">Tambah Buku</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
