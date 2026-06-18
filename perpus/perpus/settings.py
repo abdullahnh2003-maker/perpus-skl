@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "abdullahbantul.pythonanywhere.com",
-    "127.0.0.1",
+    "http://127.0.0.1:8000/",
     "localhost",
 ]
 
